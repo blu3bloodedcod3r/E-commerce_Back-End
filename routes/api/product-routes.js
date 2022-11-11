@@ -4,12 +4,12 @@ const { Product, Category, Tag, ProductTag } = require('../../models');
 // The `/api/products` endpoint
 
 // get all products
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
   // find all products
   // be sure to include its associated Category and Tag 
   try {
-    const productSearch = Product.findAll({
-      include: [{model:Category}, {model: Tag}]
+    const productSearch = await Product.findAll({
+      include: [{model:Category}, {model: Tag, through: ProductTag}]
     });
     console.log(productSearch);
     res.status(200).json(productSearch);
@@ -24,7 +24,7 @@ router.get('/:id', (req, res) => {
   // be sure to include its associated Category and Tag data
   try {
     const searchOne = Product.findOne({
-      include: [{model: Category}, {model: Tag}]
+      include: [{model: Category}, {model: Tag, through: ProductTag}]
     });
     console.log(searchOne);
 
@@ -45,7 +45,7 @@ router.post('/', async (req, res) => {
     try {
       const newProduct = await Product.create({
         where: { 
-          product_name: "Basketball",
+          product_name:req.body.product_name,
           price: 200.00,
           stock: 3,
           tagIds: [1, 2, 3, 4]

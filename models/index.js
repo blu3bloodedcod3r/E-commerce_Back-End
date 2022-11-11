@@ -12,19 +12,22 @@ Product.belongsTo(Category, {
 
 // Categories have many Products
 Category.hasMany(Product, {
-  foreignKey: 'product_name'
+  foreignKey: 'category_id',
+  onDelete: 'CASCADE'
 });
 
 // Products belongToMany Tags (through ProductTag)
-Product.belongsToMany({
-  foreignKey: 'product_id'
-}, {
-  include:[ProductTag]
+Product.belongsToMany(Tag, {
+  through: ProductTag,
+  foreignKey: 'product_id',
+  onDelete: 'CASCADE'
 });
 
 // Tags belongToMany Products (through ProductTag)
-Tag.belongsToMany(ProductTag, {
-  foreignKey: 'tag_id'
+Tag.belongsToMany(Product, {
+  through: ProductTag,
+  foreignKey: 'tag_id',
+  onDelete: 'CASCADE'
 });
 
 
