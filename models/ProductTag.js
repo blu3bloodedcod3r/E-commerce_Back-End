@@ -2,11 +2,13 @@ const { Model, DataTypes } = require('sequelize');
 
 const sequelize = require('../config/connection');
 
-class ProductTag extends Model {}
+class ProductTag extends Model {
+};
+
+FOREIGN_KEY_CHECKS = 0;
 
 ProductTag.init(
   {
-    // define columns
     id: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -15,19 +17,18 @@ ProductTag.init(
     },
     product_id:  {
       type: DataTypes.INTEGER,
-      foreignKey: true, 
-      allowNull: false,
-      references: {
-        model: 'product',
+      foreignKey: true,
+      onUpdate: 'CASCADE', 
+       references: {
+        model: 'Product',
         key: 'id'
       }
     },
     tag_id:  {
       type: DataTypes.INTEGER,
       primaryKey: true, 
-      allowNull: false,
       references: {
-        model: 'tag',
+        model: 'Tag',
         key: 'id'
       }
     },
@@ -37,7 +38,7 @@ ProductTag.init(
     timestamps: false,
     freezeTableName: true,
     underscored: true,
-    modelName: 'product_tag',
+    modelName: 'ProductTag',
   }
 );
 

@@ -4,12 +4,12 @@ const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
 
 // Initialize Product model (table) by extending off Sequelize's Model class
-class Product extends Model {}
+class Product extends Model {};
 
-// set up fields and rules for Product model
+FOREIGN_KEY_CHECKS = 0;
+
 Product.init(
   {
-    // define columns
     id: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -37,9 +37,10 @@ Product.init(
     category_id: {
       type: DataTypes.INTEGER,
       foreignKey: true,
-      allowNull: false,
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE',
       references: {
-        model: 'category',
+        model: 'Category',
         key: 'id'
       }
     },

@@ -3,9 +3,10 @@ const sequelize = require('../config/connection.js');
 
 class Category extends Model {}
 
+FOREIGN_KEY_CHECKS = 0;
+
 Category.init(
   {
-    // define columns
     id: {
       type: DataTypes.INTEGER,
       allowNull: false,

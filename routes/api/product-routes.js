@@ -3,10 +3,8 @@ const { Product, Category, Tag, ProductTag } = require('../../models');
 
 // The `/api/products` endpoint
 
-// get all products
+// works
 router.get('/', async (req, res) => {
-  // find all products
-  // be sure to include its associated Category and Tag 
   try {
     const productSearch = await Product.findAll({
       include: [{model:Category}, {model: Tag, through: ProductTag}]
@@ -15,15 +13,15 @@ router.get('/', async (req, res) => {
     res.status(200).json(productSearch);
   } catch (err) {
     res.status(500).json(err)
-  }data
+  }
 });
 
-// get one product
+//gives empty {}
 router.get('/:id', (req, res) => {
   // find a single product by its `id`
   // be sure to include its associated Category and Tag data
   try {
-    const searchOne = Product.findBtPk(req.params.id, {
+    const searchOne = Product.findById(req.params.id, {
       include: [{model: Category}, {model: Tag, through: ProductTag}]
     });
     console.log(searchOne);
@@ -45,14 +43,14 @@ router.post('/', async (req, res) => {
     try {
       const newProduct = await Product.create({
         where: { 
-          product_name:req.body.product_name,
-          price: 200.00,
-          stock: 3,
-          tagIds: [1, 2, 3, 4]
+          product_name: req.body.product_name,
+          price: req.body.price,
+          stock: req.body.stock,
+          category_id: req.body.category_id
         }
       });
       console.log(newProduct);
-      res.status(200).json(newTag);
+      res.status(200).json(newProduct);
     } catch (err) {
       res.status(500).json(err);
     };
@@ -82,14 +80,26 @@ router.post('/', async (req, res) => {
 // update product
 router.put('/:id', (req, res) => {
   // update product data
-  Product.update(req.body, {
-    where: {
-      id: req.params.id,
+  Product.update(
+    {
+      product_name: req.body.product_name,
+      price: req.body.price,
+      stock: req.body.stock,
+      category_id: req.body.category_id,
+      Category: {
+        id: req.params.id,
+        category_name: req.body.category_name
+      },
+      Tags: req.body.Tags
     },
-  })
+    {
+      where: { id: req.params.id}
+    }
+  
+  )
     .then((product) => {
       // find all associated tags from ProductTag
-      return ProductTag.findAll({ where: { product_id: req.params.id } });
+      return ProductTag.findAll({ where: { id: req.params.id } });
     })
     .then((productTags) => {
       // get list of current tag_ids
