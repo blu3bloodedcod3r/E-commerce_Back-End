@@ -40,7 +40,7 @@ Product.init(
       onDelete: 'CASCADE',
       onUpdate: 'CASCADE',
       references: {
-        model: 'Category',
+        model: 'category',
         key: 'id'
       }
     },

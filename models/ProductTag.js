@@ -20,7 +20,7 @@ ProductTag.init(
       foreignKey: true,
       onUpdate: 'CASCADE', 
        references: {
-        model: 'Product',
+        model: 'product',
         key: 'id'
       }
     },
@@ -28,7 +28,7 @@ ProductTag.init(
       type: DataTypes.INTEGER,
       primaryKey: true, 
       references: {
-        model: 'Tag',
+        model: 'tag',
         key: 'id'
       }
     },
@@ -38,7 +38,7 @@ ProductTag.init(
     timestamps: false,
     freezeTableName: true,
     underscored: true,
-    modelName: 'ProductTag',
+    modelName: 'product_tag',
   }
 );
 
