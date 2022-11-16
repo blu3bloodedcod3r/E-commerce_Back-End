@@ -39,20 +39,13 @@ router.get('/:id', (req, res) => {
 
 // create new product
 router.post('/', async (req, res) => {
-
     try {
       const newProduct = await Product.create({
-        where: { 
           product_name: req.body.product_name,
           price: req.body.price,
           stock: req.body.stock,
           category_id: req.body.category_id
-        }
-      }, 
-      {
-        include: [{model: Category}, {model: Tag, through: ProductTag}]
-      }
-      );
+      });
       console.log(newProduct);
       res.status(200).json(newProduct);
     } catch (err) {
