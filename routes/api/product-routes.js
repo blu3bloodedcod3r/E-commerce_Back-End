@@ -16,12 +16,10 @@ router.get('/', async (req, res) => {
   }
 });
 
-//gives empty {}
-router.get('/:id', (req, res) => {
-  // find a single product by its `id`
-  // be sure to include its associated Category and Tag data
+// works dont touch it
+router.get('/:id', async (req, res) => {
   try {
-    const searchOne = Product.findByPk(req.params.id, {
+    const searchOne = await Product.findByPk(req.params.id, {
       include: [{model: Category}, {model: Tag, through: ProductTag}]
     });
     console.log(searchOne);
@@ -74,20 +72,14 @@ router.post('/', async (req, res) => {
     });
 });
 
-// update product
+//works, dont touch it!
 router.put('/:id', (req, res) => {
-  // update product data
   Product.update(
     {
       product_name: req.body.product_name,
       price: req.body.price,
       stock: req.body.stock,
       category_id: req.body.category_id,
-      Category: {
-        id: req.params.id,
-        category_name: req.body.category_name
-      },
-      Tags: req.body.Tags
     },
     {
       where: { id: req.params.id}
@@ -128,8 +120,8 @@ router.put('/:id', (req, res) => {
     });
 });
 
+//works, dont touch it!
 router.delete('/:id', (req, res) => {
-  // delete one product by its `id` value
   Product.destroy({
     where: {
       id: req.params.id,
